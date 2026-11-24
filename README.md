@@ -1,5 +1,7 @@
 # Projeto Enxoval 🍼
 
+🌐 **Site:** https://adrianobarrosc.github.io/Enxoval/
+
 Site estático (HTML, CSS e JavaScript puros, sem dependências) para acompanhar a gestação e montar o enxoval do bebê.
 
 ## Páginas
@@ -34,6 +36,6 @@ js/enxoval.js     cálculos de datas, ilustração e checklist
 
 ## Publicar
 
-Em **Settings → Pages**, escolha *Deploy from a branch*, branch `main`, pasta `/ (root)`. O site fica em `https://adrianobarrosc.github.io/enxoval/`.
+Em **Settings → Pages**, escolha *Deploy from a branch*, branch `main`, pasta `/ (root)`. O site fica em `https://adrianobarrosc.github.io/Enxoval/`.
 
 Para testar localmente: `python3 -m http.server` na pasta do projeto e abra `http://localhost:8000`.

@@ -256,6 +256,13 @@ fieldset.campo { border: 0; padding: 0; margin: 0 0 22px; }
   background: color-mix(in srgb, var(--c3) 30%, white); font-weight: 700;
 }
 .progresso-geral { margin: 14px 0 22px; }
+.status-sync {
+  margin: 14px 0 0; padding: 8px 14px; border-radius: 14px; font-size: .9rem; font-weight: 700;
+  background: color-mix(in srgb, var(--c2) 35%, white);
+}
+.status-sync[data-tipo=ok] { background: color-mix(in srgb, #bfe8c8 70%, white); }
+.status-sync[data-tipo=offline] { background: color-mix(in srgb, var(--c4) 60%, white); }
+.status-sync[data-tipo=erro] { background: #ffe0e0; }
 .progresso-geral .barra { height: 14px; border-radius: 99px; background: color-mix(in srgb, var(--c4) 50%, white); overflow: hidden; }
 .progresso-geral .barra i { display: block; height: 100%; background: linear-gradient(90deg, var(--c2), var(--c3)); transition: width .4s; }
 .progresso-geral small { font-weight: 700; }
@@ -308,7 +315,7 @@ fieldset.campo { border: 0; padding: 0; margin: 0 0 22px; }
 
 /* Impressão: só o checklist, sem enfeites */
 @media print {
-  .enfeites, .cena, .area-blocos, .barra-acoes, .estacoes, .dica-ios { display: none !important; }
+  .enfeites, .cena, .area-blocos, .barra-acoes, .estacoes, .dica-ios, .status-sync { display: none !important; }
   body { background: #fff; }
   .area-checklist, .categoria { box-shadow: none; border: 1px solid #ccc; }
 }

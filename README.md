@@ -25,6 +25,7 @@ Site estático (HTML, CSS e JavaScript puros, sem dependências) para acompanhar
 - **Instalar como app (PWA):** cada página de resultado gera o próprio manifesto, então cada bebê vira um app separado ("Enxoval de …", ícone do tema, abre direto na página). Funciona sem internet depois de aberto uma vez.
   - Android / Chrome / Edge: botão **📲 Instalar como app** no topo da página.
   - iPhone / iPad (Safari): **Compartilhar → Adicionar à Tela de Início**.
+- **Checklist compartilhado (opcional, via Firebase):** com o Firebase configurado, todos que abrirem o mesmo link veem as mesmas marcações e a mesma porcentagem, em tempo real. Sem configuração ou sem internet, as marcações ficam salvas no aparelho.
 - 9 temas: Nuvens e Arco-íris, Ursinhos, Safári, Fundo do Mar, Espaço, Jardim Encantado, Super-heróis, Bonecas e Fazendinha.
 
 ## Estrutura
@@ -36,6 +37,9 @@ css/style.css     estilos compartilhados
 js/temas.js       paletas e enfeites de cada tema
 js/paginas.js     lista das páginas criadas (uma por envio)
 js/app.js         manifesto de cada página + botão de instalar
+js/sync.js        sincronização do checklist (Firebase Realtime Database)
+js/firebase-config.js  configuração do Firebase (null = só no aparelho)
+database.rules.json    regras de segurança do banco
 sw.js             service worker (uso offline)
 icons/            ícones do app, um por tema
 js/dados.js       desenvolvimento semana a semana + itens do checklist
@@ -43,6 +47,13 @@ js/enxoval.js     cálculos de datas, ilustração e checklist
 ```
 
 > Ao alterar arquivos do site, aumente `VERSAO` em `sw.js` (ex.: `enxoval-v2`) para que os apps instalados baixem a versão nova.
+
+## Ativar a sincronização (Firebase)
+
+1. Em https://console.firebase.google.com crie um projeto (o Google Analytics pode ficar desligado).
+2. Menu **Build → Realtime Database → Criar banco de dados** (local: `us-central1`; modo bloqueado).
+3. Na aba **Regras**, cole o conteúdo de `database.rules.json` e clique em **Publicar**.
+4. Em **Configurações do projeto → Seus apps**, adicione um app **Web** (`</>`), copie o objeto `firebaseConfig` e cole em `js/firebase-config.js` no lugar de `null`.
 
 ## Publicar
 

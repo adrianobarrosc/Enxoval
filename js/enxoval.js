@@ -256,6 +256,7 @@
     if (!cb.matches("input[type=checkbox]")) return;
     if (cb.checked) marcados[cb.dataset.id] = true; else delete marcados[cb.dataset.id];
     salvar();
+    if (ponte.aoMarcar) ponte.aoMarcar(cb.dataset.id, cb.checked); // envia para os outros aparelhos
     renderChecklist(estadoHoje());
     const novo = document.getElementById(cb.dataset.id);
     if (novo) novo.focus();
@@ -266,8 +267,26 @@
     if (!b) return;
     estacao = b.dataset.est;
     salvar();
+    if (ponte.aoMudarEstacao) ponte.aoMudarEstacao(estacao);
     renderChecklist(estadoHoje());
   });
+
+  /* ---------- Ponte para a sincronização (js/sync.js) ---------- */
+  const ponte = {
+    idPagina: dados.id || slug(dados.nome),
+    obterMarcados: () => ({ ...marcados }),
+    obterEstacao: () => estacao,
+    // chamado quando chegam marcações de outro aparelho
+    aplicarRemoto(novosMarcados, novaEstacao) {
+      marcados = { ...(novosMarcados || {}) };
+      if (novaEstacao) estacao = novaEstacao;
+      salvar();
+      renderChecklist(estadoHoje());
+    },
+    aoMarcar: null,        // preenchido pelo sync.js
+    aoMudarEstacao: null   // preenchido pelo sync.js
+  };
+  window.EnxovalChecklist = ponte;
 
   /* ---------- Render inicial e atualização automática ---------- */
   let diaRenderizado = null;

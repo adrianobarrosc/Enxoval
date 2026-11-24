@@ -3,7 +3,7 @@
  * Arquivos do site: busca sempre a versão mais nova na rede e guarda uma cópia;
  * sem internet, usa a cópia guardada. Fontes do Google: usa a cópia (não mudam).
  */
-const VERSAO = "enxoval-v3";
+const VERSAO = "enxoval-v4";
 const ESSENCIAIS = [
   "./",
   "./index.html",
@@ -13,7 +13,9 @@ const ESSENCIAIS = [
   "./js/dados.js",
   "./js/paginas.js",
   "./js/enxoval.js",
-  "./js/app.js"
+  "./js/app.js",
+  "./js/firebase-config.js",
+  "./js/sync.js"
 ];
 
 self.addEventListener("install", (ev) => {

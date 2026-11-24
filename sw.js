@@ -3,7 +3,7 @@
  * Arquivos do site: busca sempre a versão mais nova na rede e guarda uma cópia;
  * sem internet, usa a cópia guardada. Fontes do Google: usa a cópia (não mudam).
  */
-const VERSAO = "enxoval-v4";
+const VERSAO = "enxoval-v5";
 const ESSENCIAIS = [
   "./",
   "./index.html",

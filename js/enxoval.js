@@ -11,14 +11,15 @@
   /* ---------- Leitura dos dados (URL > armazenamento local) ---------- */
   function lerDados() {
     const qs = new URLSearchParams(location.search);
-    let salvo = null;
-    try { salvo = JSON.parse(localStorage.getItem("enxoval:dados") || "null"); } catch (e) {}
-    const nome = qs.get("nome") || (salvo && salvo.nome);
-    const semanas = parseInt(qs.get("semanas") || (salvo && salvo.semanas), 10);
-    const tema = qs.get("tema") || (salvo && salvo.tema) || "nuvens";
-    const data = qs.get("data") || (salvo && salvo.data) || isoLocal(new Date());
+    const id = qs.get("id");
+    // Página registrada neste navegador (ou a mais recente, se o link vier sem dados)
+    const salva = id ? buscarPagina(id) : (qs.get("nome") ? null : listarPaginas()[0] || null);
+    const nome = qs.get("nome") || (salva && salva.nome);
+    const semanas = parseInt(qs.get("semanas") || (salva && salva.semanas), 10);
+    const tema = qs.get("tema") || (salva && salva.tema) || "nuvens";
+    const data = qs.get("data") || (salva && salva.data) || isoLocal(new Date());
     if (!nome || !Number.isInteger(semanas)) return null;
-    return { nome, semanas: Math.min(42, Math.max(1, semanas)), tema, data };
+    return { id: id || (salva && salva.id) || null, nome, semanas: Math.min(42, Math.max(1, semanas)), tema, data };
   }
 
   function isoLocal(d) {
@@ -46,11 +47,15 @@
   espalharEnfeites($("enfeites"), tema.deco, 16);
   document.title = `Enxoval de ${dados.nome}`;
   $("titulo").textContent = `Enxoval de ${dados.nome}`;
-  $("link-editar").href = "index.html?" + new URLSearchParams({ nome: dados.nome, tema: dados.tema }).toString();
+  // "Criar outra página" leva ao formulário já preenchido com estes dados
+  $("link-editar").href = "index.html?" + new URLSearchParams({
+    nome: dados.nome, tema: dados.tema, semanas: Math.min(42, Math.max(1, dados.semanas + Math.floor(diasEntre(dataLocal(dados.data), new Date()) / 7)))
+  }).toString();
 
   const referencia = dataLocal(dados.data);
   const dpp = addDias(referencia, 280 - dados.semanas * 7); // data provável do parto (40 semanas)
-  const chaveCheck = "enxoval:check:" + slug(dados.nome);
+  // Cada página guarda o próprio checklist (links antigos, sem id, usam o nome)
+  const chaveCheck = "enxoval:check:" + (dados.id || slug(dados.nome));
 
   /* ---------- Estado calculado para "hoje" ---------- */
   function estadoHoje() {
@@ -272,9 +277,8 @@
     renderBebe(est);
     renderContagem(est);
     renderChecklist(est);
-    try {
-      localStorage.setItem("enxoval:dados", JSON.stringify({ ...dados, semanasAtuais: Math.min(42, Math.max(1, est.semana)) }));
-    } catch (e) {}
+    // Registra a página neste navegador (também quando o link foi aberto em outro aparelho)
+    if (dados.id && !buscarPagina(dados.id)) salvarPagina({ ...dados, criadaEm: Date.now() });
   }
 
   renderTudo();

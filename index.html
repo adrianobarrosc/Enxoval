@@ -81,6 +81,7 @@
   </div>
 
   <main class="ante">
+    <div class="coluna">
     <form class="cartao-form" id="formulario" novalidate>
       <h1>Projeto Enxoval</h1>
       <p class="sub">Conte um pouquinho sobre o bebê e a gente monta tudo pra você ✨</p>
@@ -101,18 +102,27 @@
         <div class="temas" id="temas"></div>
       </fieldset>
 
-      <button class="botao" type="submit">Montar o enxoval 🍼</button>
+      <button class="botao" type="submit">Criar página do enxoval 🍼</button>
+      <p class="ajuda" style="text-align:center;margin-top:8px">Cada envio cria uma página nova, aberta em outra aba.</p>
       <p class="erro" id="erro" role="alert"></p>
     </form>
+
+    <section class="minhas" id="minhas" aria-labelledby="titulo-minhas" hidden>
+      <h2 id="titulo-minhas">📚 Minhas páginas</h2>
+      <ul id="lista-paginas"></ul>
+    </section>
+    </div>
   </main>
 
   <script src="js/temas.js"></script>
+  <script src="js/paginas.js"></script>
   <script>
     (function () {
       const form = document.getElementById("formulario");
       const caixaTemas = document.getElementById("temas");
       const erro = document.getElementById("erro");
       const enfeites = document.getElementById("enfeites");
+      const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
       // Tema genérico de abertura (serve para meninos e meninas)
       aplicarTema("nuvens");
@@ -127,24 +137,18 @@
         caixaTemas.appendChild(l);
       });
 
-      // Pré-preenche com o que já foi digitado antes
-      let salvo = null;
-      try { salvo = JSON.parse(localStorage.getItem("enxoval:dados") || "null"); } catch (e) {}
+      // Pré-preenche só quando vier de "Criar outra página" (dados na URL)
       const qs = new URLSearchParams(location.search);
-      const pre = {
-        nome: qs.get("nome") || (salvo && salvo.nome) || "",
-        semanas: qs.get("semanas") || (salvo && salvo.semanasAtuais) || "",
-        tema: qs.get("tema") || (salvo && salvo.tema) || "nuvens"
-      };
-      form.nome.value = pre.nome;
-      form.semanas.value = pre.semanas;
-      const radio = form.querySelector(`input[name=tema][value="${pre.tema}"]`);
+      form.nome.value = qs.get("nome") || "";
+      form.semanas.value = qs.get("semanas") || "";
+      const radio = form.querySelector(`input[name=tema][value="${qs.get("tema") || "nuvens"}"]`);
       if (radio) radio.checked = true;
 
       function hojeISO() {
         const d = new Date();
         return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
       }
+      function dataBR(iso) { const [a, m, d] = iso.split("-"); return `${d}/${m}/${a}`; }
 
       // Prévia: as cores mudam conforme o tema escolhido
       function previaTema() {
@@ -153,6 +157,33 @@
       }
       caixaTemas.addEventListener("change", previaTema);
       previaTema();
+
+      // Lista das páginas já criadas neste navegador
+      function renderLista() {
+        const lista = listarPaginas();
+        document.getElementById("minhas").hidden = lista.length === 0;
+        document.getElementById("lista-paginas").innerHTML = lista.map((p) => {
+          const t = TEMAS[p.tema] || TEMAS.nuvens;
+          return `<li style="--swatch:${t.c1}">
+            <a href="${esc(urlDaPagina(p))}" target="_blank" rel="noopener">
+              <span aria-hidden="true">${t.emoji}</span>
+              <span><b>Enxoval de ${esc(p.nome)}</b><small>${esc(p.semanas)} semanas em ${dataBR(p.data)} · ${esc(t.nome)}</small></span>
+            </a>
+            <button type="button" data-remover="${esc(p.id)}" aria-label="Remover a página de ${esc(p.nome)}" title="Remover da lista">✕</button>
+          </li>`;
+        }).join("");
+      }
+      document.getElementById("lista-paginas").addEventListener("click", (ev) => {
+        const b = ev.target.closest("button[data-remover]");
+        if (!b) return;
+        const p = buscarPagina(b.dataset.remover);
+        if (p && confirm(`Remover a página "Enxoval de ${p.nome}" e o checklist marcado nela?`)) {
+          removerPagina(p.id);
+          renderLista();
+        }
+      });
+      renderLista();
+      window.addEventListener("storage", renderLista); // atualiza se outra aba mudar a lista
 
       form.addEventListener("submit", (ev) => {
         ev.preventDefault();
@@ -166,13 +197,17 @@
         }
         erro.textContent = "";
 
-        const data = hojeISO(); // data de referência: a partir dela a página se atualiza sozinha
-        try {
-          localStorage.setItem("enxoval:dados", JSON.stringify({ nome, semanas, tema, data, semanasAtuais: semanas }));
-        } catch (e) {}
+        // Cada resposta vira uma página nova, com identificador próprio.
+        // "data" é o dia do preenchimento: a partir dela a página se atualiza sozinha.
+        const pagina = { id: novoIdPagina(), nome, semanas, tema, data: hojeISO(), criadaEm: Date.now() };
+        salvarPagina(pagina);
+        renderLista();
 
-        const p = new URLSearchParams({ nome, semanas, tema, data });
-        location.href = "enxoval.html?" + p.toString();
+        const aba = window.open(urlDaPagina(pagina), "_blank");
+        if (!aba) { location.href = urlDaPagina(pagina); return; } // navegador bloqueou a nova aba
+        form.reset();
+        previaTema();
+        form.nome.focus();
       });
     })();
   </script>

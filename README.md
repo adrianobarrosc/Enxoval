@@ -13,7 +13,8 @@ Site estático (HTML, CSS e JavaScript puros, sem dependências) para acompanhar
 
 ## Como funciona
 
-- O formulário envia os dados pela URL (`enxoval.html?nome=…&semanas=…&tema=…&data=AAAA-MM-DD`) e também guarda no navegador (`localStorage`).
+- **Cada envio do formulário cria uma página nova**, com identificador próprio, aberta em outra aba (`enxoval.html?id=…&nome=…&semanas=…&tema=…&data=AAAA-MM-DD`). O link funciona em qualquer aparelho.
+- A ante-página lista as páginas já criadas naquele navegador (**Minhas páginas**), com opção de remover. Cada página guarda o próprio checklist.
 - A `data` é o dia em que o formulário foi preenchido. A partir dela a página calcula sozinha a semana atual e a data provável do parto (40 semanas):
   - **bloco da direita** (contagem regressiva) muda **todo dia** (e o relógio corre em tempo real);
   - **bloco da esquerda** (estágio do bebê) muda a **cada nova semana**.
@@ -30,6 +31,7 @@ index.html        ante-página
 enxoval.html      página do enxoval
 css/style.css     estilos compartilhados
 js/temas.js       paletas e enfeites de cada tema
+js/paginas.js     lista das páginas criadas (uma por envio)
 js/dados.js       desenvolvimento semana a semana + itens do checklist
 js/enxoval.js     cálculos de datas, ilustração e checklist
 ```

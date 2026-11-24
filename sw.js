@@ -3,7 +3,7 @@
  * Páginas (HTML): busca na rede primeiro e guarda cópia; sem rede, usa a cópia.
  * Arquivos estáticos e fontes: usa a cópia e atualiza em segundo plano.
  */
-const VERSAO = "enxoval-v1";
+const VERSAO = "enxoval-v2";
 const ESSENCIAIS = [
   "./",
   "./index.html",

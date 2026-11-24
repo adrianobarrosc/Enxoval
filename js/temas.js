@@ -31,6 +31,16 @@ const TEMAS = {
     bg: "#FFF7FA", c1: "#FAD4E1", c2: "#D6F0D8", c3: "#FFF0B5", c4: "#E4D9F5", ink: "#6A4760",
     deco: ["🌷", "🦋", "🐞", "🌼", "🐝", "🍄"]
   },
+  herois: {
+    nome: "Super-heróis", emoji: "🦸",
+    bg: "#F4F7FF", c1: "#C8D8FF", c2: "#FFCACA", c3: "#FFE8A3", c4: "#D9F0FF", ink: "#3A4675",
+    deco: ["🦸", "⚡", "💥", "🦸‍♀️", "⭐", "🛡️"]
+  },
+  bonecas: {
+    nome: "Bonecas", emoji: "🪆",
+    bg: "#FFF5F8", c1: "#FBD0E0", c2: "#E9D5FF", c3: "#FFE2CC", c4: "#FDF0C4", ink: "#6B3F5A",
+    deco: ["🪆", "🎀", "👗", "💖", "👒", "🌸"]
+  },
   fazendinha: {
     nome: "Fazendinha", emoji: "🐑",
     bg: "#FBF9EE", c1: "#E6F0C8", c2: "#FFE1C6", c3: "#D9ECF7", c4: "#F6E3F0", ink: "#5A5235",

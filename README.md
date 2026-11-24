@@ -25,7 +25,7 @@ Site estático (HTML, CSS e JavaScript puros, sem dependências) para acompanhar
 - **Instalar como app (PWA):** cada página de resultado gera o próprio manifesto, então cada bebê vira um app separado ("Enxoval de …", ícone do tema, abre direto na página). Funciona sem internet depois de aberto uma vez.
   - Android / Chrome / Edge: botão **📲 Instalar como app** no topo da página.
   - iPhone / iPad (Safari): **Compartilhar → Adicionar à Tela de Início**.
-- 7 temas: Nuvens e Arco-íris, Ursinhos, Safári, Fundo do Mar, Espaço, Jardim Encantado e Fazendinha.
+- 9 temas: Nuvens e Arco-íris, Ursinhos, Safári, Fundo do Mar, Espaço, Jardim Encantado, Super-heróis, Bonecas e Fazendinha.
 
 ## Estrutura
 

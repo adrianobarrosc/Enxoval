@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enxoval</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍼</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="enfeites" id="enfeites" aria-hidden="true"></div>
+
+  <div class="pagina" id="pagina">
+    <!-- 1ª área: título -->
+    <header class="area-titulo">
+      <h1 id="titulo">Enxoval</h1>
+      <div class="barra-acoes">
+        <a href="index.html" id="link-editar">✏️ Editar informações</a>
+        <button type="button" onclick="window.print()">🖨️ Imprimir checklist</button>
+      </div>
+    </header>
+
+    <!-- 2ª área: dois blocos iguais -->
+    <section class="area-blocos" aria-label="Acompanhamento da gestação">
+      <article class="bloco bloco-bebe" aria-live="polite">
+        <span class="etiqueta" id="etq-semana">Semana —</span>
+        <h2 id="titulo-bebe">Como o bebê está</h2>
+        <div class="bebe-ilustra" id="ilustra-bebe"></div>
+        <div class="fruta-cartao">
+          <span class="fruta-emoji" id="fruta-emoji" aria-hidden="true">🍋</span>
+          <p>Mais ou menos do tamanho de: <b id="fruta-nome">…</b></p>
+        </div>
+        <div class="medidas">
+          <div><b id="med-cm">—</b><small>comprimento</small></div>
+          <div><b id="med-g">—</b><small>peso</small></div>
+          <div><b id="med-tri">—</b><small>trimestre</small></div>
+        </div>
+        <p class="fato" id="fato"></p>
+        <p class="rodape-bloco">Medidas aproximadas — cada bebê tem o seu ritmo. Atualiza sozinho a cada nova semana.</p>
+      </article>
+
+      <article class="bloco bloco-contagem">
+        <span class="etiqueta">Contagem regressiva</span>
+        <h2 id="titulo-contagem">Faltam</h2>
+        <p class="numero-gigante" id="dias">—</p>
+        <p class="numero-legenda" id="dias-legenda">dias</p>
+        <div class="relogio" aria-label="Horas, minutos e segundos restantes">
+          <div><b id="rel-h">00</b><small>horas</small></div>
+          <div><b id="rel-m">00</b><small>min</small></div>
+          <div><b id="rel-s">00</b><small>seg</small></div>
+        </div>
+        <div class="trilha" aria-hidden="true">
+          <div class="preenchido" id="trilha-preenchido"></div>
+          <span class="viajante" id="trilha-viajante">🐣</span>
+          <span class="casa">🏡</span>
+        </div>
+        <div class="trilha-legenda"><span>início</span><span id="trilha-pct">0%</span><span>nascimento</span></div>
+        <ul class="curiosidades" id="curiosidades"></ul>
+        <p class="mensagem-dia" id="mensagem-dia"></p>
+      </article>
+    </section>
+
+    <!-- 3ª área: checklist (área principal) -->
+    <section class="area-checklist" aria-labelledby="titulo-checklist">
+      <div class="checklist-topo">
+        <div>
+          <h2 id="titulo-checklist">📝 Checklist do enxoval</h2>
+          <p id="info-nascimento"></p>
+        </div>
+        <div>
+          <small style="font-weight:700;display:block;margin-bottom:6px">Clima no nascimento:</small>
+          <div class="estacoes" id="estacoes" role="group" aria-label="Clima previsto no nascimento">
+            <button type="button" data-est="v">☀️ Calor</button>
+            <button type="button" data-est="m">🌤️ Meia-estação</button>
+            <button type="button" data-est="i">❄️ Frio</button>
+          </div>
+        </div>
+      </div>
+      <p class="dica-semana" id="dica-semana"></p>
+      <div class="progresso-geral">
+        <small id="progresso-texto">0 de 0 itens</small>
+        <div class="barra"><i id="progresso-barra" style="width:0%"></i></div>
+      </div>
+      <p style="margin:0 0 16px;font-size:.92rem">Clique no <b>nome</b> de um item para pesquisar o que ele é 🔍 · Marque a caixinha quando já tiver ✓</p>
+      <div class="categorias" id="categorias"></div>
+      <p class="fontes">
+        Lista montada a partir de recomendações de maternidades e guias de enxoval
+        (<a href="https://www.rededorsaoluiz.com.br/maternidade/noticias/artigo/o-que-levar-na-mala-da-maternidade" target="_blank" rel="noopener">Maternidade D'Or</a>,
+        <a href="https://www.tuasaude.com/enxoval-da-mamae-no-hospital/" target="_blank" rel="noopener">Tua Saúde</a>,
+        <a href="https://www.guiadasemana.com.br/compras/noticia/como-montar-um-enxoval-de-bebe" target="_blank" rel="noopener">Guia da Semana</a>,
+        <a href="https://araujo.com.br/blog/itens-cha-de-bebe/" target="_blank" rel="noopener">Araujo</a>).
+        Confirme sempre a lista da sua maternidade e as orientações do pediatra.
+      </p>
+    </section>
+  </div>
+
+  <script src="js/temas.js"></script>
+  <script src="js/dados.js"></script>
+  <script src="js/enxoval.js"></script>
+</body>
+</html>

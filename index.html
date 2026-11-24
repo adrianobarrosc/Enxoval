@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projeto Enxoval</title>
+  <meta name="description" content="Monte o enxoval do bebê com checklist, contagem regressiva e acompanhamento semanal da gestação.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👶</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="enfeites" id="enfeites" aria-hidden="true"></div>
+
+  <!-- Cena infantil: crianças brincando (decorativa) -->
+  <div class="cena" aria-hidden="true">
+    <svg viewBox="0 0 1440 260" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <symbol id="crianca" overflow="visible">
+          <ellipse cx="-11" cy="1" rx="9" ry="5" fill="#7b6a8c"/>
+          <ellipse cx="11" cy="1" rx="9" ry="5" fill="#7b6a8c"/>
+          <path d="M-8 -30 L-10 -2 M8 -30 L10 -2" stroke="var(--calca)" stroke-width="9" stroke-linecap="round"/>
+          <path d="M-14 -60 L-33 -84" stroke="var(--pele)" stroke-width="8" stroke-linecap="round"/>
+          <path d="M14 -60 L31 -42" stroke="var(--pele)" stroke-width="8" stroke-linecap="round"/>
+          <rect x="-18" y="-70" width="36" height="44" rx="16" fill="var(--camisa)"/>
+          <circle cx="0" cy="-90" r="20" fill="var(--pele)"/>
+          <path d="M-20 -92 A20 20 0 0 1 20 -92 Q12 -101 2 -99 Q-8 -104 -20 -92Z" fill="var(--cabelo)"/>
+          <circle cx="-7" cy="-90" r="2.4" fill="#4a3b55"/>
+          <circle cx="7" cy="-90" r="2.4" fill="#4a3b55"/>
+          <path d="M-6 -82 Q0 -77 6 -82" stroke="#4a3b55" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <circle cx="-12" cy="-84" r="3.5" fill="#f5a3b5" opacity=".7"/>
+          <circle cx="12" cy="-84" r="3.5" fill="#f5a3b5" opacity=".7"/>
+        </symbol>
+      </defs>
+
+      <!-- sol e nuvens -->
+      <circle cx="1300" cy="58" r="34" fill="#FFE8A3"/>
+      <g class="nuvem"><ellipse cx="120" cy="60" rx="58" ry="20" fill="#fff"/><ellipse cx="150" cy="46" rx="34" ry="22" fill="#fff"/></g>
+      <g class="nuvem n2"><ellipse cx="600" cy="40" rx="50" ry="17" fill="#fff"/><ellipse cx="625" cy="28" rx="28" ry="18" fill="#fff"/></g>
+
+      <!-- gramado -->
+      <path d="M0 210 Q240 168 480 196 T960 190 T1440 186 V260 H0Z" fill="#D5EDC9"/>
+      <path d="M0 232 Q360 206 720 226 T1440 220 V260 H0Z" fill="#C3E3B5"/>
+
+      <!-- florzinhas -->
+      <g fill="#FFC8DD"><circle cx="90" cy="226" r="5"/><circle cx="420" cy="236" r="5"/><circle cx="760" cy="230" r="5"/><circle cx="1110" cy="238" r="5"/><circle cx="1380" cy="228" r="5"/></g>
+      <g fill="#FFF3B0"><circle cx="90" cy="226" r="2"/><circle cx="420" cy="236" r="2"/><circle cx="760" cy="230" r="2"/><circle cx="1110" cy="238" r="2"/><circle cx="1380" cy="228" r="2"/></g>
+
+      <!-- criança 1 com pipa -->
+      <g class="pipa" style="transform-origin:247px 112px">
+        <path d="M247 112 Q210 70 168 34" stroke="#9b8aa8" stroke-width="1.6" fill="none"/>
+        <path d="M168 4 L190 34 L168 66 L146 34Z" fill="#CDB4DB"/>
+        <path d="M168 4 V66 M146 34 H190" stroke="#fff" stroke-width="2"/>
+        <path d="M168 66 q-8 12 0 22 q8 10 0 22" stroke="#FFC8DD" stroke-width="3" fill="none"/>
+      </g>
+      <use href="#crianca" x="280" y="200" style="--pele:#F6CBA8;--camisa:#BDE0FE;--calca:#A79BC1;--cabelo:#7a4e33"/>
+
+      <!-- criança 2 pulando com bola -->
+      <g class="crianca-pula">
+        <use href="#crianca" x="600" y="198" style="--pele:#C98E6B;--camisa:#FFC8DD;--calca:#8FB8D8;--cabelo:#2f2430"/>
+      </g>
+      <circle cx="660" cy="186" r="15" fill="#FFF3B0" stroke="#F2C66D" stroke-width="3"/>
+      <path d="M646 186 H674 M660 172 V200" stroke="#F2C66D" stroke-width="2"/>
+
+      <!-- criança 3 com balão -->
+      <g class="balao">
+        <path d="M932 112 Q940 80 926 50" stroke="#9b8aa8" stroke-width="1.6" fill="none"/>
+        <ellipse cx="926" cy="30" rx="20" ry="25" fill="#FFC8DD"/>
+        <path d="M921 54 L931 54 L926 60Z" fill="#FFC8DD"/>
+      </g>
+      <use href="#crianca" x="965" y="200" style="--pele:#FBDCC4;--camisa:#C9F2E3;--calca:#F0B6C9;--cabelo:#E3B04B"/>
+
+      <!-- criança 4 brincando com bolhas -->
+      <use href="#crianca" x="1230" y="196" style="--pele:#8D5B42;--camisa:#FFF3B0;--calca:#B5A8D6;--cabelo:#1f1a20" transform="translate(2460 0) scale(-1 1)"/>
+      <g fill="none" stroke="#BDE0FE" stroke-width="3">
+        <circle cx="1180" cy="100" r="12"/><circle cx="1150" cy="72" r="8"/><circle cx="1170" cy="44" r="10"/><circle cx="1130" cy="40" r="6"/>
+      </g>
+    </svg>
+  </div>
+
+  <main class="ante">
+    <form class="cartao-form" id="formulario" novalidate>
+      <h1>Projeto Enxoval</h1>
+      <p class="sub">Conte um pouquinho sobre o bebê e a gente monta tudo pra você ✨</p>
+
+      <div class="campo">
+        <label for="nome">Nome do Bebê:</label>
+        <input type="text" id="nome" name="nome" maxlength="40" placeholder="Ex.: Helena, Miguel, Bebê…" autocomplete="off" required>
+      </div>
+
+      <div class="campo">
+        <label for="semanas">Semanas de Gestação:</label>
+        <input type="number" id="semanas" name="semanas" min="1" max="42" step="1" inputmode="numeric" placeholder="Ex.: 24" required>
+        <p class="ajuda">Quantas semanas a gestação tem hoje (de 1 a 42).</p>
+      </div>
+
+      <fieldset class="campo">
+        <legend>Tema de Preferência:</legend>
+        <div class="temas" id="temas"></div>
+      </fieldset>
+
+      <button class="botao" type="submit">Montar o enxoval 🍼</button>
+      <p class="erro" id="erro" role="alert"></p>
+    </form>
+  </main>
+
+  <script src="js/temas.js"></script>
+  <script>
+    (function () {
+      const form = document.getElementById("formulario");
+      const caixaTemas = document.getElementById("temas");
+      const erro = document.getElementById("erro");
+      const enfeites = document.getElementById("enfeites");
+
+      // Tema genérico de abertura (serve para meninos e meninas)
+      aplicarTema("nuvens");
+      espalharEnfeites(enfeites, ["🧸", "🎈", "⭐", "☁️", "🪁", "🐥", "🍼", "🌈"], 16);
+
+      // Opções de tema
+      Object.entries(TEMAS).forEach(([chave, t], i) => {
+        const l = document.createElement("label");
+        l.className = "tema-opcao";
+        l.innerHTML = `<input type="radio" name="tema" value="${chave}" ${i === 0 ? "checked" : ""}>
+                       <span style="--swatch:${t.c1}"><b aria-hidden="true">${t.emoji}</b>${t.nome}</span>`;
+        caixaTemas.appendChild(l);
+      });
+
+      // Pré-preenche com o que já foi digitado antes
+      let salvo = null;
+      try { salvo = JSON.parse(localStorage.getItem("enxoval:dados") || "null"); } catch (e) {}
+      const qs = new URLSearchParams(location.search);
+      const pre = {
+        nome: qs.get("nome") || (salvo && salvo.nome) || "",
+        semanas: qs.get("semanas") || (salvo && salvo.semanasAtuais) || "",
+        tema: qs.get("tema") || (salvo && salvo.tema) || "nuvens"
+      };
+      form.nome.value = pre.nome;
+      form.semanas.value = pre.semanas;
+      const radio = form.querySelector(`input[name=tema][value="${pre.tema}"]`);
+      if (radio) radio.checked = true;
+
+      function hojeISO() {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      }
+
+      // Prévia: as cores mudam conforme o tema escolhido
+      function previaTema() {
+        const chave = (form.querySelector("input[name=tema]:checked") || {}).value || "nuvens";
+        aplicarTema(chave);
+      }
+      caixaTemas.addEventListener("change", previaTema);
+      previaTema();
+
+      form.addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        const nome = form.nome.value.trim();
+        const semanas = parseInt(form.semanas.value, 10);
+        const tema = (form.querySelector("input[name=tema]:checked") || {}).value || "nuvens";
+
+        if (!nome) { erro.textContent = "Digite o nome do bebê 💕"; form.nome.focus(); return; }
+        if (!Number.isInteger(semanas) || semanas < 1 || semanas > 42) {
+          erro.textContent = "Informe as semanas de gestação (de 1 a 42)."; form.semanas.focus(); return;
+        }
+        erro.textContent = "";
+
+        const data = hojeISO(); // data de referência: a partir dela a página se atualiza sozinha
+        try {
+          localStorage.setItem("enxoval:dados", JSON.stringify({ nome, semanas, tema, data, semanasAtuais: semanas }));
+        } catch (e) {}
+
+        const p = new URLSearchParams({ nome, semanas, tema, data });
+        location.href = "enxoval.html?" + p.toString();
+      });
+    })();
+  </script>
+</body>
+</html>

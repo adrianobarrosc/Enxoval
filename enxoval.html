@@ -21,7 +21,11 @@
         <a href="index.html" id="link-editar">➕ Criar outra página</a>
         <a href="index.html#minhas">📚 Minhas páginas</a>
         <button type="button" onclick="window.print()">🖨️ Imprimir checklist</button>
+        <button type="button" id="botao-instalar" class="botao-instalar" hidden>📲 Instalar como app</button>
       </div>
+      <p class="dica-ios" id="dica-ios" hidden>
+        No iPhone/iPad: toque em <b>Compartilhar</b> <span aria-hidden="true">⬆️</span> e depois em <b>Adicionar à Tela de Início</b>.
+      </p>
     </header>
 
     <!-- 2ª área: dois blocos iguais -->
@@ -102,5 +106,6 @@
   <script src="js/dados.js"></script>
   <script src="js/paginas.js"></script>
   <script src="js/enxoval.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

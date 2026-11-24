@@ -22,6 +22,9 @@ Site estático (HTML, CSS e JavaScript puros, sem dependências) para acompanhar
   - quantidades ajustadas à estação prevista do nascimento (hemisfério sul), com opção de trocar para *Calor*, *Meia-estação* ou *Frio*;
   - clicar no nome de um item abre uma pesquisa "o que é …";
   - os itens marcados ficam salvos no navegador.
+- **Instalar como app (PWA):** cada página de resultado gera o próprio manifesto, então cada bebê vira um app separado ("Enxoval de …", ícone do tema, abre direto na página). Funciona sem internet depois de aberto uma vez.
+  - Android / Chrome / Edge: botão **📲 Instalar como app** no topo da página.
+  - iPhone / iPad (Safari): **Compartilhar → Adicionar à Tela de Início**.
 - 7 temas: Nuvens e Arco-íris, Ursinhos, Safári, Fundo do Mar, Espaço, Jardim Encantado e Fazendinha.
 
 ## Estrutura
@@ -32,9 +35,14 @@ enxoval.html      página do enxoval
 css/style.css     estilos compartilhados
 js/temas.js       paletas e enfeites de cada tema
 js/paginas.js     lista das páginas criadas (uma por envio)
+js/app.js         manifesto de cada página + botão de instalar
+sw.js             service worker (uso offline)
+icons/            ícones do app, um por tema
 js/dados.js       desenvolvimento semana a semana + itens do checklist
 js/enxoval.js     cálculos de datas, ilustração e checklist
 ```
+
+> Ao alterar arquivos do site, aumente `VERSAO` em `sw.js` (ex.: `enxoval-v2`) para que os apps instalados baixem a versão nova.
 
 ## Publicar
 

@@ -169,6 +169,17 @@ fieldset.campo { border: 0; padding: 0; margin: 0 0 22px; }
   background: none; border: 0; font: inherit; color: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
 }
 
+.area-titulo .barra-acoes .botao-instalar {
+  text-decoration: none; font-weight: 800; background: var(--c2); color: var(--ink);
+  padding: 4px 14px; border-radius: 99px; box-shadow: 0 3px 0 color-mix(in srgb, var(--c2) 60%, #000 15%);
+}
+.botao-instalar[hidden], .dica-ios[hidden] { display: none !important; }
+.dica-ios {
+  margin: 10px auto 0; max-width: 420px; font-size: .9rem; background: var(--branco);
+  padding: 8px 14px; border-radius: 14px; box-shadow: var(--sombra);
+}
+@media (display-mode: standalone) { .area-titulo { padding-top: 28px; } }
+
 /* 2ª área: dois blocos iguais */
 .area-blocos {
   display: grid; grid-template-columns: 1fr 1fr; gap: 22px;
@@ -297,7 +308,7 @@ fieldset.campo { border: 0; padding: 0; margin: 0 0 22px; }
 
 /* Impressão: só o checklist, sem enfeites */
 @media print {
-  .enfeites, .cena, .area-blocos, .barra-acoes, .estacoes { display: none !important; }
+  .enfeites, .cena, .area-blocos, .barra-acoes, .estacoes, .dica-ios { display: none !important; }
   body { background: #fff; }
   .area-checklist, .categoria { box-shadow: none; border: 1px solid #ccc; }
 }

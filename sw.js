@@ -1,9 +1,9 @@
 /* Projeto Enxoval — service worker
  * Permite instalar as páginas como app e abri-las sem internet.
- * Páginas (HTML): busca na rede primeiro e guarda cópia; sem rede, usa a cópia.
- * Arquivos estáticos e fontes: usa a cópia e atualiza em segundo plano.
+ * Arquivos do site: busca sempre a versão mais nova na rede e guarda uma cópia;
+ * sem internet, usa a cópia guardada. Fontes do Google: usa a cópia (não mudam).
  */
-const VERSAO = "enxoval-v2";
+const VERSAO = "enxoval-v3";
 const ESSENCIAIS = [
   "./",
   "./index.html",
@@ -17,7 +17,12 @@ const ESSENCIAIS = [
 ];
 
 self.addEventListener("install", (ev) => {
-  ev.waitUntil(caches.open(VERSAO).then((c) => c.addAll(ESSENCIAIS)).then(() => self.skipWaiting()));
+  // cache: "reload" evita guardar cópias antigas vindas do cache HTTP do navegador
+  ev.waitUntil(
+    caches.open(VERSAO)
+      .then((c) => c.addAll(ESSENCIAIS.map((u) => new Request(u, { cache: "reload" }))))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener("activate", (ev) => {
@@ -36,34 +41,32 @@ self.addEventListener("fetch", (ev) => {
   const fonte = url.hostname === "fonts.googleapis.com" || url.hostname === "fonts.gstatic.com";
   if (!mesmaOrigem && !fonte) return;
 
-  // Páginas: rede primeiro (os dados vêm na URL, então ignoramos a query no cache)
-  if (req.mode === "navigate") {
+  // Fontes: cópia guardada primeiro (arquivos que não mudam)
+  if (fonte) {
     ev.respondWith(
-      fetch(req)
-        .then((resp) => {
-          const copia = resp.clone();
-          caches.open(VERSAO).then((c) => c.put(url.pathname, copia));
-          return resp;
-        })
-        .catch(() => caches.match(url.pathname, { ignoreSearch: true })
-          .then((r) => r || caches.match("./enxoval.html")))
+      caches.match(req).then((emCache) => emCache || fetch(req).then((resp) => {
+        const copia = resp.clone();
+        caches.open(VERSAO).then((c) => c.put(req, copia));
+        return resp;
+      }))
     );
     return;
   }
 
-  // Estáticos e fontes: cache primeiro, atualizando em segundo plano
+  // Arquivos do site: rede primeiro (sem cache HTTP), cópia guardada só sem internet.
+  // Os dados de cada página vêm na URL, então a cópia ignora a query.
+  const chave = url.origin + url.pathname;
   ev.respondWith(
-    caches.match(req, { ignoreSearch: mesmaOrigem }).then((emCache) => {
-      const daRede = fetch(req)
-        .then((resp) => {
-          if (resp && (resp.ok || resp.type === "opaque")) {
-            const copia = resp.clone();
-            caches.open(VERSAO).then((c) => c.put(req, copia));
-          }
-          return resp;
-        })
-        .catch(() => emCache);
-      return emCache || daRede;
-    })
+    fetch(req, { cache: "no-cache" })
+      .then((resp) => {
+        if (resp && resp.ok) {
+          const copia = resp.clone();
+          caches.open(VERSAO).then((c) => c.put(chave, copia));
+        }
+        return resp;
+      })
+      .catch(() => caches.match(chave, { ignoreSearch: true })
+        .then((r) => r || (req.mode === "navigate" ? caches.match(new URL("./enxoval.html", self.location).href) : undefined))
+        .then((r) => r || Response.error()))
   );
 });
